@@ -1,24 +1,6 @@
-# vue-weather
+# An app to view current weather for most cities
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# Guide to the shell script
+## Place script in root folder, 
+## open your project with git bash, and type 
+## sh deploy.sh
