@@ -2,7 +2,7 @@
   <div id="app" :class="typeof data.main != 'undefined' && changeBackground(status)">
     <main>
       <div class="search-box">
-        <input type="text" class="search-bar" placeholder="Search a city name to get the current weather..." v-model="search" @keypress="fetchWeather">
+        <input type="text" class="search-bar" placeholder="Search a city name and press enter to get the current weather..." v-model="search" @keypress="fetchWeather">
         <input type="radio" id="C"  value="metric" v-model="picked">
         <label for="C">°C</label>
         <br>
@@ -11,19 +11,17 @@
         <br>
       </div>
       <div class="weather-wrap" v-if="typeof data.main != 'undefined'">
+          <div class="temp">{{temp}}°</div>
         <div class="location-box">
           <div class="location">{{cc}}</div>
           <div class="date">{{time}}</div>
+          <div class="status">{{status}}</div>
           <div class="more-weather-info">
-            <div class="feels-like">Low: {{ lowTemp }}</div>
-            <div class="feels-like">High: {{ highTemp }}</div>
+            <div class="feels-like">L: {{ lowTemp }}</div>
+            <div class="feels-like">H: {{ highTemp }}</div>
             <div class="feels-like">Feels like: {{feelsLike}}°</div>
             <div class="feels-like">Humidity: {{humidity}}%</div>
           </div>
-        </div>
-        <div class="weather-box">
-          <div class="status">{{status}}</div>
-          <div class="temp">{{temp}}°</div>
         </div>
       </div>
     </main>
@@ -34,9 +32,11 @@
 
 import weather from "@/components/weather"
 import config from './keys.json'
+import moment from 'moment'
 export default {
   name: 'app',
-  components: weather,
+  components:
+    weather,
   data(){
     return{
       apiKey: config.apiKey,
@@ -74,9 +74,7 @@ export default {
       this.humidity = results.main.humidity;
       this.lowTemp = Math.round(results.main.temp_min);
       this.highTemp = Math.round(results.main.temp_max);
-
-
-      this.time = new Date(this.getDate(results))
+      this.time = moment(this.getDate(results)).format("LLLL")
 
     },
     getDate(args){
@@ -105,11 +103,6 @@ export default {
 }
 </script>
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 body{
   font-family: Arial,serif;
 }
@@ -136,12 +129,10 @@ main{
   padding: 25px;
 }
 .search-box{
-  width: 100%;
   margin-bottom: 30px;
-}
-.search-box, .search-bar{
-  display:block;
-  width: 100%;
+  width: 90%;
+  display: block;
+  width: 90%;
   padding: 15px;
   color: #313131;
   font-size: 100%;
@@ -151,41 +142,46 @@ main{
   background-color: rgba(255,255,255,0.5);
   box-shadow: 0px 0 8px rgba(0,0,0, 0.25);
 }
+
+.search-bar{
+  font-size: 100%;
+  display: block;
+  padding: 15px;
+  background-color: rgba(255,255,255,0.5);
+  border: none;
+  outline: none;
+  width: 98%;
+}
 .weather-wrap{
   font-family: Raleway;
-  text-align: center;
   font-weight:500;
   font-size: 40px;
   text-shadow: 3px 3px rgba(0,0,0,0.25);
+  display: flex;
+  height: 600px;
+  min-width: 100%;
+  align-self: center;
+  justify-items: center;
+  align-items: center;
+}
+.temp{
+  width: 600px;
+  font-size: 300px;
+  text-align: center;
+
 }
 .location-box{
   background-color: rgba(0,0,0,0.15);
   box-shadow: 5px 10px rgba(0,0,0,0.5);
-  box-sizing: content-box;
-  margin: 30px 0;
+  box-sizing: border-box;
+  margin: 0 50px;
   font-weight: 800;
   font-style: oblique;
-}
-.weather-box .temp{
-  color: aliceblue;
-  display:inline-block;
-  font-size: 500%;
-  font-weight: 600;
-  font-style: normal;
-  padding: 10px 10px;
-  text-shadow: 5px 5px rgba(0,0,0,2);
-  background-color: rgba(0,0,0,0.25);
-  margin: 30px 0;
-  box-shadow: 5px 10px rgba(0,0,0,0.5);
-}
-.weather-box .status{
-  font-size: 500%;
-  font-style: italic;
-  text-shadow: 3px 3px rgba(0,0,0,0.5);
-  font-weight: 800;
+  text-align: center;
 }
 .more-weather-info{
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
 }
 </style>
